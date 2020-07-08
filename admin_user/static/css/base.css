@@ -1,0 +1,26 @@
+.sidenav {
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #313632;
+    overflow-x: hidden;
+    padding-top: 20px;
+    /*z-index: -1;*/
+  }
+
+.sidenav a {
+  text-align: center;
+  /*padding-d: 12px;*/
+  text-decoration: none;
+  /*padding-bottom: 5px;*/
+  font-size: 15px;
+  color: #fff;
+  display: block;
+  margin-bottom: 15px
+}
+.dropdown-item{
+  padding-left: 25px;
+}

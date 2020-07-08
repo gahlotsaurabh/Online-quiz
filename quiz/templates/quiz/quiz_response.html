@@ -1,0 +1,58 @@
+{% extends 'admin_user/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="main container"> 
+	<div class="row">
+		<div class="col-4 text-left">	
+			<a href='/chandler/category'>
+			<h4 class="glyphicon h2 glyphicon-plus text-success border border-secondary px-2" data-toggle="tooltip" title="Add new category"></h4>
+			</a>
+		</div>
+		<div class="col-8">
+			<h1 class="text-left">{{ questions|first }}</h1>
+		</div>
+	</div>
+  	{% for i in questions %}
+
+    <div class="border p-1 m-2">
+        
+        <h3 class="border-bottom pl-4"> {{loop.index}}    {{ i.text }}</h3>
+        
+        <div class="row p-2">
+            <div class="col-6 ">
+                {% comment %} <button > {{ i.option1 }}</button> {% endcomment %}
+                <input type='radio' value={{i.option1}} name='{{i.option1}}' />
+                {% comment %} <label class="custom-control-label">{{ i.option1 }}</label> {% endcomment %}
+            </div>
+            <div class="col-6 ">
+                {% comment %} <button >{{ i.option2 }}</button> {% endcomment %}
+                <input type='radio' value='{{i.option2}}' name='{{i.option2}}' />
+                {% comment %} <label class="custom-control-label">{{ i.option2 }}</label> {% endcomment %}
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-6 text-left">
+                {% comment %} <button >{{ i.option3 }}</button> {% endcomment %}
+                <input type='radio' value='{{i.option3}}' name='{{i.option3}}' />
+                {% comment %} <label class="custom-control-label">{{ i.option3 }}</label> {% endcomment %}
+            </div>
+            <div class="col-6 text-left">
+                {% comment %} <button >{{ i.option4 }}</button> {% endcomment %}
+                <input type='radio' value='{{i.option4}}' name='{{i.option4}}' />
+                {% comment %} <label class="custom-control-label" >{{ i.option4 }}</label> {% endcomment %}
+            </div>
+        </div>
+    </div>
+    	
+    {% endfor %}           
+</div> 
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'chandler/product_list.js' %}"></script>
+{% endblock script %}
