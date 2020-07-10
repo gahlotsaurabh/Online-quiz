@@ -1,20 +1,15 @@
 {% extends 'admin_user/base.html' %}
 {% load static %}
-{% block title %}Login{% endblock %}
+{% block title %}quiz question{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 <div class="main container"> 
-	<div class="row">
-		<div class="col-4 text-left">	
-			<a href='/chandler/category'>
-			<h4 class="glyphicon h2 glyphicon-plus text-success border border-secondary px-2" data-toggle="tooltip" title="Add new category"></h4>
-			</a>
-		</div>
-		<div class="col-8">
-			<h2 class="text-left">Quiz List</h2>
+	<div class="row border-bottom">
+		<div class="col-12">
+			<h2 class="text-center">Quiz Question-List</h2>
 		</div>
 	</div>
       <div class="table-responsive row justify-content-center">     
@@ -32,21 +27,24 @@
 	    	<tbody class="table-striped ">
 			  <tr>
 			    <td>{{ i.id }}</td>
-			    <td><a href='/admin_user/quiz_detail/{{ i.cate_id }}'>{{ i.text }}</a></td>
+			    <td>{{ i.text }}</td>
 			    <td>
-			    	<ul>{{ i.option1 }}</ul>
-					<ul>{{ i.option2 }}</ul>
-					<ul>{{ i.option3 }}</ul>
-					<ul>{{ i.option4 }}</ul>
+			    	<li>{{ i.option1 }}</li>
+					<li>{{ i.option2 }}</li>
+					<li>{{ i.option3 }}</li>
+					<li>{{ i.option4 }}</li>
 			    </td>
 				<td>{{ i.answer }}</td>
 				<td>
-			    	<a href='/chandler/{{ i.cate_id }}/category_update'>
+			    	<a href='/{{ i.id }}/question_update'>
 			    	<span class="glyphicon glyphicon-edit"></span>
 			    	</a>
 			    </td>
 			    <td>
-			    	<a href='/chandler/{{ i.cate_id }}/category_delete'>
+					<form id="my_form1{{i.id}}" method="post" action='{{i.id}}/question_delete'>
+    					{% csrf_token %}
+					</form>
+			    	<a onclick="document.getElementById('my_form1{{i.id}}').submit();">
 			    	<span class="glyphicon glyphicon-trash text-danger"></span>
 			    	</a>
 			    </td>
@@ -62,15 +60,10 @@
 {% if user.is_authenticated %}
 
 <div class="container jumbotron main" >
-<h2 class="p-3 border-bottom border-secondary">Add new coupon here...</h2>
+<h2 class="p-3 border-bottom border-secondary">Add new question in quiz here...</h2>
 	<form method="POST" class="form1">
     {% csrf_token %}
     {{ form.media }}
-    <div class="row p-2">
-      <div class="col-6">
-        {{ form.quiz|as_crispy_field }}
-      </div>
-    </div>
 	<div class="row p-2">
       <div class="col-12">
         {{ form.text|as_crispy_field }}
@@ -86,10 +79,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-6 datepicker" id="dpicker">
+      <div class="col-6">
         {{ form.option3|as_crispy_field }}
       </div>
-      <div class="col-6 datepicker" id="datepicker">
+      <div class="col-6">
         {{ form.option4|as_crispy_field }}
       </div>
     </div>
@@ -115,5 +108,4 @@
 {% endblock %}
 
 {% block script %}
-  <script type="text/javascript" src="{% static 'chandler/product_list.js' %}"></script>
 {% endblock script %}

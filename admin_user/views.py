@@ -14,7 +14,6 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.models import User
 
 from quiz.models import Question, Quiz
-from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse,HttpResponseForbidden
 
 
@@ -26,6 +25,11 @@ def admin_index(request):
 
 
 def user_login(request):
+	if request.user.is_authenticated:
+		if request.user.is_staff:
+				return HttpResponseRedirect(reverse('admin_index'))
+		else:
+			return HttpResponseRedirect(reverse('student_index'))
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -53,9 +57,12 @@ class QuizList(ListView):
 @login_required
 def quiz_list_and_create(request,quiz_id):
     if request.user.is_staff:
-        form = QuestionForm(request.POST or None)
+        form = QuestionForm(data=request.POST)
         if request.method == 'POST' and form.is_valid():
-            form.save()
+            question=form.save(commit=False)
+            quiz=Quiz.objects.get(id=quiz_id)
+            question.quiz=quiz
+            question.save()
             form = QuestionForm()
         questions = Question.objects.filter(quiz=quiz_id)
         return render(request, 'admin_user/quiz_question_create.html', {'questions': questions, 'form': form})
@@ -71,9 +78,8 @@ def register(request):
 			user.save()
 			profile = profile_form.save(commit=False)
 			profile.user = user
-			if 'profile_pic' in request.FILES:
-				print('found it')
-				profile.profile_pic = request.FILES['profile_pic']
+			if 'avatar' in request.FILES:
+				profile.avatar = request.FILES['avatar']
 			profile.save()
 			user_form = UserForm()
 			profile_form = UserProfileForm()
@@ -99,4 +105,9 @@ class UserUpdate(UpdateView):
 
 	def get_success_url(self,request):
 		return render(request,'admin_user/login.html')
-		# return reverse('chandler:user_list')
+
+
+class StudentList(ListView):
+    template_name = 'student/students_list.html'
+    queryset = User.objects.filter(is_staff=False)
+    ordering = ['id']

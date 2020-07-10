@@ -1,0 +1,59 @@
+{% extends 'admin_user/base.html' %}
+{% load static %}
+{% block title %}Report card{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="main container"> 
+	<div class="row">
+		<div class="col-12">
+			<h2 class="text-center">Quiz Report List of {{ user }}</h2>
+		</div>
+	</div>
+      <div class=" table-responsive row justify-content-center">     
+   		<table id="mytable" class="table text-center table-bordered table-hover table-responsive table-striped d-block d-md-table">  
+	        <thead>         
+	             <th class="text-center">Quiz</th>
+				{% if not user.is_staff %}
+                 <th class="text-center">Action</th>
+                {% else %}
+				 <th class="text-center">Student Name</th>
+                {% endif %}
+	             <th class="text-center">Number of Attempts</th>
+				<th class="text-center">Status</th>
+	        </thead>
+  	{% for i in object_list %}
+	    	<tbody class="table-striped ">
+			  <tr>
+			    <td>{{ i.quiz }}</td>
+				{% if not user.is_staff %}
+				<td>
+			    	<a href='/quiz-time/{{ i.quiz.id }}'>
+			    	<button class="btn btn-sm btn-primary">Retake</button>
+			    	</a>
+			    </td>
+				{% else %}
+				<td>{{ i.user }}</td>
+                {% endif %}
+
+                <td>
+			    	{{ i.attempts }}
+			    </td>
+                {% if i.is_passed %}
+					<td> <button type="button" class="btn btn-sm btn-success" disabled>Passed</button> </td>
+				{% else %}
+					<td> <button type="button" class="btn btn-sm btn-danger" disabled>Failed</button> </td>
+  				{% endif %}
+	          </tr> 
+	    	</tbody>
+    {% endfor %} 
+   		</table>
+	<input type="hidden" id="refresh" value="no">
+		</div>                
+</div> 
+{% endblock %}
+
+{% block script %}
+{% endblock script %}

@@ -20,33 +20,31 @@
   
   {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">Online quiz system</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'admin_user:user_login' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link text-danger" href="{% url 'quiz:report' %}">Student Report</a>
           </li>
+          {% if user.is_staff %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
+              Manage student
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'admin_user:students_list' %}">Student List</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'admin_user:register' %}">Add Student</a>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
+          {% endif %}
         </ul>
         <div class="pull-right">
           <ul class="nav navbar-nav">
@@ -56,20 +54,51 @@
           </ul>     
         </div>
       </div>
-    </nav>  
+    </nav>
    {% endif %}
   
     {% block content %}
     {% endblock content %}
    
-  <footer id="" class="border-top border border-dark border-bottom-0 border-right-0 border-left-0">
-    <div class="container text-center">
-     <small>Copyright &copy; SonaSaachi</small>
+  <footer id="" class="fixed-bottom position-static bg-dark border border-dark ">
+    <div>
+      <div class="d-flex justify-content-center">
+        <div class="d-flex mt-4 w-75 text-left text-light">
+          <div class="col-3">
+            <p class="h4 text-light">Contact Info </p>
+            <li class="my-2">Address: </li>
+            <li class="my-2">Mobile:</li>
+            <li class="my-2">City</li>
+            <li class="my-2">Email: </li>
+          </div>
+          <div class="col-3">
+            <p class="h4 text-light">MODULES</p>
+            <li class="my-2">QUIZ</li>
+            <li class="my-2">STUDENT</li>
+            <li class="my-2">ADMIN</li>
+          </div>
+          <div class="col-3">
+            <p class="h4 text-light">PROJECT LINKS</p>
+            <li class="my-2">LOGIN</li>
+            <li class="my-2">EMAIL</li>
+            <li class="my-2">REGISTER</li>
+            <li class="my-2">ABOUT US</li>
+          </div>
+          <div class="col-3">
+            <p class="h4 text-light">ABOUT PROJECT</p>
+            <p>User can register as student or admin same login page can be used 
+                to login for both admin can create quiz question where as student can
+                view quiz and attempt question. Admin can view report of all students where as 
+                student can view his report of all the quiz ateempted.
+            </p>
+          </div>
+        </div>
+    </div>
+    <div class="container text-center text-light mt-3">
+     <small>Copyright &copy; Quiz System</small>
     </div>
    </footer>  
-    <link rel="stylesheet" href="{% static 'css/chandler.css' %}">
-    {% comment %}  <script type="text/javascript" src="{% static 'chandler/chandler.js' %}"></script> {% endcomment %}
-     {% block script %}
-     {% endblock script %}
+    {% block script %}
+    {% endblock script %}
 
 </body>

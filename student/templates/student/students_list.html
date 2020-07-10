@@ -1,0 +1,58 @@
+{% extends 'admin_user/base.html' %}
+{% load static %}
+{% block title %}Student List{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="main container"> 
+	<div class="row">
+		<div class="col-12 border-bottom">
+			<h2 class="text-center">Student List</h2>
+		</div>
+	</div>
+      <div class=" table-responsive row justify-content-center">     
+   		<table id="mytable" class="table text-center table-bordered table-hover table-responsive table-striped d-block d-md-table">  
+	        <thead>         
+	             <th class="text-center">User id</th>
+				 <th class="text-center">Profile pic</th> 
+	             <th class="text-center">Name</th>
+				 <th class="text-center">Country</th>
+				 <th class="text-center">Gender</th>
+				 <th class="text-center">Phone</th>
+	             <th class="text-center">D.O.B</th>
+	             <th class="text-center">Edit</th>
+	        </thead>
+  	{% for i in object_list %}
+	    	<tbody class="table-striped ">
+			  <tr>
+			    <td>{{ i.id }}</td>
+				{% if i.profile.avatar %}
+				<td><img src="{{ i.profile.avatar.url }}" height="42" width="42" class="img-thumbnail"></td>
+				{% else %}
+				<td><img src="https://www.bootdey.com/img/Content/avatar/avatar6.png" height="72" width="62" class="img-thumbnail"></td>
+  				{% endif %}
+				<td>{{ i.first_name }} {{ i.last_name }}</td>
+				<td>{{ i.profile.country }}</td>
+				<td>{{ i.profile.gender }}</td>
+			    <td>{{ i.profile.phone }}</td>
+			    <td>
+			    	{{ i.profile.birth_date }}
+			    </td>
+				<td>
+			    	<a href='{{ i.id }}/user_update'>
+			    		<span class="glyphicon glyphicon-pencil"></span>
+			    	</a>
+			    </td>
+	          </tr> 
+	    	</tbody>
+    {% endfor %} 
+   		</table>
+	<input type="hidden" id="refresh" value="no">
+		</div>                
+</div> 
+{% endblock %}
+
+{% block script %}
+{% endblock script %}
